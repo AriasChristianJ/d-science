@@ -103,6 +103,9 @@ import gensim
 from playwright.async_api import async_playwright
 plt.style.use('ggplot')
 import nltk
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('vader_lexicon')
 from nltk.sentiment import SentimentIntensityAnalyzer
 from tqdm.notebook import tqdm
 from deep_translator import GoogleTranslator

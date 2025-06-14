@@ -1,2 +1,14 @@
+pandas
 matplotlib
+numpy
+seaborn
+nltk
+gensim
+playwright
+tqdm
+deep-translator
+selenium
+webdriver-manager
+beautifulsoup4
+langdetect
 streamlit
