@@ -1,8 +1,8 @@
 pandas
 matplotlib
-gensim==4.3.2
-scipy==1.11.4
-numpy==1.26.4
+gensim
+scipy
+numpy
 seaborn
 nltk
 playwright
