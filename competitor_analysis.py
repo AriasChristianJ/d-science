@@ -1,12 +1,18 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[28]:
+# In[13]:
+
+
+# get_ipython().system(' pip install matplotlib')
+
+
+# In[14]:
 
 
 # import asyncio
 # import json
-# from playwright.async_api import async_playwright
+# from playwright.async_api import async_playwright # 
 
 # async def get_reviews():
 #     reviews = []
@@ -86,7 +92,7 @@
 # await main()
 
 
-# In[29]:
+# In[15]:
 
 
 import pandas as pd
@@ -103,9 +109,6 @@ import gensim
 from playwright.async_api import async_playwright
 plt.style.use('ggplot')
 import nltk
-nltk.download('stopwords')
-nltk.download('wordnet')
-nltk.download('vader_lexicon')
 from nltk.sentiment import SentimentIntensityAnalyzer
 from tqdm.notebook import tqdm
 from deep_translator import GoogleTranslator
@@ -119,12 +122,12 @@ import time
 sia = SentimentIntensityAnalyzer()
 
 
-# In[ ]:
+# In[16]:
 
 
 import pandas as pd
 import os
-downloads_path = os.path.join(os.path.expanduser('~'), 'Downloads')
+downloads_path = os.path.join(os.path.expanduser('~'), 'Downloads/d-science')
 os.chdir(downloads_path)
 bootcamps = pd.read_csv('bootcamps.csv', index_col=0)
 bootcamps = bootcamps.apply(pd.to_numeric, errors="coerce").astype("Int64")
@@ -133,7 +136,7 @@ bootcamps = bootcamps.fillna(0)
 
 # Coursereport
 
-# In[30]:
+# In[17]:
 
 
 # async def get_reviews():
@@ -249,7 +252,7 @@ bootcamps = bootcamps.fillna(0)
 
 # Trustpilot
 
-# In[31]:
+# In[18]:
 
 
 # options = webdriver.ChromeOptions()
@@ -339,7 +342,7 @@ bootcamps = bootcamps.fillna(0)
 # print(f"\n✅ Saved {len(all_reviews)} reviews to lewagon_trustpilot.json")
 
 
-# In[32]:
+# In[19]:
 
 
 df_google = pd.read_csv('lewagon_google.csv', names=['date', 'review', 'source'])
@@ -354,7 +357,7 @@ df_lewagon = pd.concat([df_coursereport, df_google, df_trustpilot], ignore_index
 df_lewagon
 
 
-# In[33]:
+# In[20]:
 
 
 def clean_text(text):
@@ -364,7 +367,7 @@ def clean_text(text):
 df_lewagon['review'].apply(clean_text)    
 
 
-# In[34]:
+# In[21]:
 
 
 DetectorFactory.seed = 0
@@ -379,7 +382,7 @@ def safe_translate(text):
 df_lewagon['translated'] = df_lewagon.apply(lambda row: safe_translate(row['review']) if row['language'] != 'en' else None, axis=1)
 
 
-# In[35]:
+# In[22]:
 
 
 sia.polarity_scores("I am so happy") # {'neg': 0.0, 'neu': 0.334, 'pos': 0.666, 'compound': 0.6115}
@@ -389,7 +392,7 @@ sia.polarity_scores('I am very sad')['compound'] # {'neg': 0.629, 'neu': 0.371, 
 df_lewagon['compound'] = df_lewagon.apply(lambda row: sia.polarity_scores(row['translated'] if pd.notnull(row['translated']) else row['review'])['compound'],axis=1)
 
 
-# In[36]:
+# In[23]:
 
 
 import locale
@@ -402,7 +405,7 @@ df_lewagon.loc[mask, 'date'] = pd.to_datetime(
 df_lewagon['date'] = pd.to_datetime(df_lewagon['date'], errors='coerce')
 
 
-# In[37]:
+# In[24]:
 
 
 df = df_lewagon.sort_values('date').reset_index(drop=True)
@@ -416,13 +419,13 @@ plt.tight_layout()
 plt.show()
 
 
-# In[38]:
+# In[25]:
 
 
 print(df.review[df['compound'] == df['compound'].min()].to_list())
 
 
-# In[39]:
+# In[26]:
 
 
 # remove stopwords, punctuation, and normalize the corpus
@@ -445,7 +448,7 @@ dictionary = corpora.Dictionary(df['tokens'])
 corpus = [dictionary.doc2bow(text) for text in df['tokens']]
 
 
-# In[ ]:
+# In[27]:
 
 
 from gensim.models import CoherenceModel
@@ -510,7 +513,7 @@ vis = gensimvis.prepare(lda_model, corpus, dictionary)
 pyLDAvis.display(vis)
 
 
-# In[46]:
+# In[28]:
 
 
 competitors = ['Ironhack','Le Wagon','Stackfuel','Careerfoundry','Code institute', 'Masterschool','WBS coding school','Codeworks','Digital career institute']
@@ -518,12 +521,14 @@ courses = ['Web Development', 'Data Analytics', 'UX/UI Design', 'Digital Marketi
 features = pd.DataFrame(columns=competitors, index=courses)
 
 
-# In[ ]:
+# In[31]:
 
 
 import gensim
 from gensim.utils import simple_preprocess
-from gensim.models import Phrases, Phraser
+# from gensim.models import Phrases, Phraser
+from gensim.models.phrases import Phraser, Phrases
+
 from nltk.corpus import stopwords
 import spacy
 import nltk
@@ -560,5 +565,11 @@ def preprocess_texts(texts):
         doc = nlp(" ".join(doc))
         return [token.lemma_ for token in doc if token.pos_ in ['NOUN', 'ADJ', 'VERB', 'ADV']]
 
-    return [lemmatize(doc) for doc in texts_trigrams] # add
+    return [lemmatize(doc) for doc in texts_trigrams]
+
+
+# In[32]:
+
+
+# get_ipython().system(' jupyter nbconvert --to script competitor_analysis.ipynb')
 
