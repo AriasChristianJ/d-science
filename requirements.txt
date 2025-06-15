@@ -1,9 +1,10 @@
 pandas
 matplotlib
-numpy
+gensim==4.3.2
+scipy==1.11.4
+numpy==1.26.4
 seaborn
 nltk
-gensim
 playwright
 tqdm
 deep-translator
@@ -12,3 +13,4 @@ webdriver-manager
 beautifulsoup4
 langdetect
 streamlit
+
