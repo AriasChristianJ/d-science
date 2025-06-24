@@ -1,16 +1,18 @@
 pandas
+numpy
 matplotlib
-gensim==4.3.2
-scipy==1.11.4
-numpy==1.26.4
 seaborn
 nltk
-playwright
+gensim
+pyLDAvis
+plotly
 tqdm
 deep-translator
+langdetect
+bert-topic
+beautifulsoup4
 selenium
 webdriver-manager
-beautifulsoup4
-langdetect
-streamlit
+playwright
+voila
 
