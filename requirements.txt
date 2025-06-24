@@ -12,7 +12,7 @@ plotly
 tqdm
 deep-translator
 langdetect
-bert-topic
+bertopic
 beautifulsoup4
 selenium
 webdriver-manager
