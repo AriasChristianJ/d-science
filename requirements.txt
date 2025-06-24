@@ -1,6 +1,9 @@
 pandas
 numpy
 matplotlib
+gensim
+scipy
+numpy
 seaborn
 nltk
 gensim
